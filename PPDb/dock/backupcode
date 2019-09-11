@@ -1,0 +1,104 @@
+#mycodes
+def submit():
+	if request.method == 'POST' and 'userPDB' in request.files:
+		# Upload the input file
+		userPDBfile = userPDB.save(request.files['userPDB'])
+
+		# Remove water from the input file
+		with open (userPDBfile) as oldfile, open(userPDBfile.split(".")[0]+"_dehydrated.pdb",'w') as newfile:
+                        molecules = ['HOH']
+                        for line in oldfile:
+                                if not any(molecule in line for molecule in molecules):
+                                        newfile.write(line)
+                                        print ('Success!')
+
+                                        return render_template('result.html')
+        return render_template render_template('dock.html')
+#mycodes
+	if request.method == 'POST' and 'userPDB' in request.files:
+		# Upload the input file
+		userPDBfile = userPDB.save(request.files['userPDB'])
+
+		# Remove water from the input file
+		with open (userPDBfile) as oldfile, open(userPDBfile.split(".")[0]+"_dehydrated.pdb",'w') as newfile:
+                        molecules = ['HOH']
+                        for line in oldfile:
+                                if not any(molecule in line for molecule in molecules):
+                                        newfile.write(line)
+                                        print ('Success!')
+
+# FS code. Set the parameters
+		jobName=request.form["jobName"]
+		if jobName == "":
+			jobName="vada"
+		removeDuplicates=request.form["removeDuplicates"]
+		gapThreshold=request.form["gapThreshold"]
+		if gapThreshold == "":
+			gapThreshod = 0.95
+
+# FS code. HUNANA Analysis
+		HUNANA=Hunana()
+		humanHunanaResult=HUNANA.run(id=jobName,inputfile=app.config['UPLOADS_DEFAULT_DEST']+jobName+"_Human.fasta",source="human",entropy=True)
+		animalHunanaResult=HUNANA.run(id=jobName,inputfile=app.config['UPLOADS_DEFAULT_DEST']+jobName+"_Animal.fasta",source="animal",entropy=True)
+		outputstream=open(app.config['UPLOADS_DEFAULT_DEST']+jobName+"_animal.hunana","w")
+		json.dump(animalHunanaResult,outputstream)
+		outputstream.close()
+		outputstream=open(app.config['UPLOADS_DEFAULT_DEST']+jobName+"_human.hunana","w")
+		json.dump(humanHunanaResult,outputstream)
+		outputstream.close()
+
+
+		# FS code. VADA Analysis		
+		VADA=Vada()
+		success=VADA.run(id=jobName,AnimalHunanaData=animalHunanaResult,HumanHunanaData=humanHunanaResult)
+
+		#FS code
+		<div class="container">
+    <form method="post" enctype="multipart/form-data" action="{{ url_for('dock.upload') }}">
+      <div class="form-group row">
+        <label for="jobName" class="col-6 col-form-label">Job Name</label>
+        <div class="col-6">
+          <input id="jobName" name="jobName" placeholder="vada" type="text" class="form-control" aria-describedby="jobNameHelpBlock">
+          <span id="jobNameHelpBlock" class="form-text text-muted">Default: vada</span>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="humanSequence" class="col-6 col-form-label">Human Sequence</label> 
+        <div class="col-6">
+          <input type="file" id="humanSequence" name="humanSequence" class="form-control" aria-describedby="humanSequenceHelpBlock"> 
+          <span id="humanSequenceHelpBlock" class="form-text text-muted">Human sequence file in FASTA format</span>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="animalSequence" class="col-6 col-form-label">Animal Sequence</label>
+        <div class="col-6">
+          <input type="file" id="animalSequence" name="animalSequence" class="form-control" aria-describedby="animalSequenceHelpBlock">                            
+          <span id="animalSequenceHelpBlock" class="form-text text-muted">Animal sequence file in FASTA format</span>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="gapThreshold" class="col-6 col-form-label">Gap Threshold</label> 
+        <div class="col-6">
+          <input id="gapThreshold" name="gapThreshold" placeholder="0.95" type="text" class="form-control" aria-describedby="gapThresholdHelpBlock"> 
+          <span id="gapThresholdHelpBlock" class="form-text text-muted">Default: 0.95</span>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-6">Remove Duplicate</label> 
+        <div class="col-6">
+          <div class="custom-control custom-radio custom-control-inline">
+            <input name="removeDuplicates" id="duplicate_0" type="radio" class="custom-control-input" value="True" checked> 
+            <label for="duplicate_0" class="custom-control-label">Yes</label>
+          </div>
+          <div class="custom-control custom-radio custom-control-inline">
+            <input name="removeDuplicates" id="duplicate_1" type="radio" class="custom-control-input" value="False"> 
+            <label for="duplicate_1" class="custom-control-label">No</label>
+          </div>
+        </div>
+      </div> 
+      <div class="form-group row">
+        <div class="offset-6 col-6">
+          <button name="submit" type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </div>
+    </form>

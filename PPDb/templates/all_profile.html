@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block content %}
+<a href="{{ url_for('main.show_all')}}"></a>
+<h3>Entries in Pain Protein Database</h3>
+
+<table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">PPDb id</th>
+            <th scope="col">PDB ID</th>
+            <th scope="col">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for item in all_profile %}
+            <tr>
+            <th scope="row">{{ Protein_profile.protein_profile}}</th>
+            <td>{{ protein_profile.id }}</td>
+            <td>{{ protein_profile.PDB_ID }}</td>
+            <td>{{ protein_profile.description }}</td>
+            </tr>
+        {% endfor %}
+          </tr>
+        </tbody>
+      </table>
+     <table>
+
+     </table>
+{% endblock content %}

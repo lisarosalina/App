@@ -1,0 +1,16 @@
+npts 40 40 42                        # num.grid points in xyz
+gridfld 4PMM_protein.maps.fld        # grid_data_file
+spacing 0.375                        # spacing(A)
+receptor_types A C HD N NA OA SA     # receptor atom types
+ligand_types A C HD N OA             # ligand atom types
+receptor 4PMM_protein.pdbqt          # macromolecule
+gridcenter auto                      # xyz-coordinates or auto
+smooth 0.5                           # store minimum energy w/in rad(A)
+map 4PMM_protein.A.map               # atom-specific affinity map
+map 4PMM_protein.C.map               # atom-specific affinity map
+map 4PMM_protein.HD.map              # atom-specific affinity map
+map 4PMM_protein.N.map               # atom-specific affinity map
+map 4PMM_protein.OA.map              # atom-specific affinity map
+elecmap 4PMM_protein.e.map           # electrostatic potential map
+dsolvmap 4PMM_protein.d.map              # desolvation potential map
+dielectric -0.1465                   # <0, AD4 distance-dep.diel;>0, constant

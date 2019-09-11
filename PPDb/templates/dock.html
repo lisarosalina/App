@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+{% block content %}
+  <body>
+	<form method="POST" enctype="multipart/form-data" action="{{ url_for('dock.docking')}}">
+		{{ form.hidden_tag() }}
+	<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<h3 class="text-center text-info">PPDb AutoDock Webservice</h3>
+			<div class="input-group mb-3">
+				<div class="input-group-prepend"><span class="input-group-text" id="basic-addon1">Job name</span></div>
+				<input type="text" class="form-control" placeholder="Enter job name" aria-label="Username" aria-describedby="basic-addon1"></div>
+				
+			<div class="dropdown mb-3"> 
+				<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">Choose your protein</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					 <a class="dropdown-item disabled" href="#">Action</a> <a class="dropdown-item" href="#">Another action</a> <a class="dropdown-item" href="#">Something else here</a>
+				</div>
+			</div>
+			<div></div>
+			<div class="dropdown mb-3">
+					<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">Choose your ligand</button>
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						 <a class="dropdown-item disabled" href="#">Action</a> <a class="dropdown-item" href="#">Another action</a> <a class="dropdown-item" href="#">Something else here</a>
+					</div>
+					<div></div>
+				</div>			 
+					<label for="exampleInputFile">
+					Upload ligand
+					</label>
+					<input type="file" class="form-control-file mb-3" id="exampleInputFile">
+					<p class="help-block">
+						If you have your own ligand in PDBQT format, upload here
+					</p>
+				</div>
+				<div></div>
+				<button type="submit" class="btn btn-primary mb-3">
+					Submit your ligand PDBQT file
+				</button>
+				<div></div>
+			</form> <a href="#" class="btn btn-block btn-primary mb-3" type="button">Run docking</a>
+		</div>
+	</div>
+</div>
+</form>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/scripts.js"></script>
+  </body>
+{% endblock content %}

@@ -1,0 +1,98 @@
+{% extends "layout.html" %}
+{% block content %}
+<a href="{{ url_for('main.profile')}}"></a>
+<h2>Protein Profile</h2>
+{% for profile in profile %}
+<table>
+    <thead>
+        <tr>
+           <th>PPDb id</th>
+           <th>PDB ID</th>
+           <th>Description</th>
+           <th>PDB file</th>
+       </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ protein_profile.id }}</td>
+            <td>{{ protein_profile.PDB_ID }}</td>
+            <td>{{ protein_profile.description }}</td>
+            <td>{{ protein_profile.original_PDBfilename }}</td>
+        </tr>
+    </tbody>
+</table>
+{% endfor %}
+{% for experimental_data in experimental_data %}
+<div>
+    <h2>Experimental data</h2>
+    <table>
+        <thead>
+            <tr>
+               <th>Method</th>
+               <th>Resolution (Angstrom)</th>
+               <th>R-value Free</th>
+               <th>R-value Work</th>
+           </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ experimental_data.method }}</td>
+                <td>{{ experimental_data.resolution }}</td>
+                <td>{{ experimental_data.rfree }}</td>
+                <td>{{ experimental_data.rwork }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endfor %}
+{% for protein_information in protein_information %}
+<div>
+    <h2>Protein information</h2>
+    <table>
+        <thead>
+            <tr>
+               <th>Uniprot ID</th>
+               <th>Protein name</th>
+               <th>Gene</th>
+               <th>Organism</th>
+               <th>Protein only PDB file</th>
+           </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ protein_information.uniprot_id }}</td>
+                <td>{{ protein_information.protein_name }}</td>
+                <td>{{ protein_information.gene }}</td>
+                <td>{{ protein_information.organism }}</td>
+                <td>{{ protein_information.protein_PDBfile }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endfor %}
+{% for ligand_information in ligand_information %}
+<div>
+    <h2>Ligand information</h2>
+    <table>
+        <thead>
+            <tr>
+               <th>Ligand ID</th>
+               <th>Ligand name</th>
+               <th>Formula</th>
+               <th>InChl Key</th>
+               <th>Ligand only PDB file</th>
+           </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ ligand_information.ligand_id }}</td>
+                <td>{{ ligand_information.ligand_name }}</td>
+                <td>{{ ligand_information.formula }}</td>
+                <td>{{ ligand_information.inchl_key }}</td>
+                <td>{{ ligand_information.ligand_PDBfile }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endfor %}
+{% endblock content %}
